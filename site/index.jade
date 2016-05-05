@@ -1,0 +1,11 @@
+include ./lib/_form
+html
+  head
+    title Fishing line experiment calculator
+    link(rel='stylesheet', href='lib-3p/bootstrap-3.2.0-dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='app.css')
+    script(src='lib-3p/zepto.min.js')
+    script(src='lib-3p/query-string.js')
+body
+  include:md index.md
+  script(type='text/javascript', src='app.js')

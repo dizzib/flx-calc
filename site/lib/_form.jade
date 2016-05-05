@@ -1,0 +1,26 @@
+mixin field-label(name, label)
+  - var label = label || name
+  .form-group
+    label(for=name).control-label.col-sm-3 #{label}
+    .col-sm-3
+      block
+    label.control-label.unit
+
+mixin field-input(type, name, value, label)
+  +field-label(name, label)
+    input(type=type, id=name, name=name, value=value).form-control
+    block
+
+mixin field-radio(name, value)
+  label.radio-inline.col-sm-4
+    input(type='radio', id=value, name=name, value=value)
+    block
+
+mixin field-static(name, label)
+  +field-label(name, label)
+    .col-sm-8
+      p(id=name).form-control-static
+
+mixin field-text(name, label)
+  +field-input('text', name, '', label)
+    block
