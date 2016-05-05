@@ -1,11 +1,41 @@
-include ./lib/_form
+mixin field-label(name, label)
+  - var label = label || name
+  label(for=name) #{label}
+
+mixin field-input(type, name, label)
+  .field
+    +field-label(name, label)
+    input(type=type, id=name, name=name, value=value)
+    block
+
+mixin field-text(name, label)
+  +field-input('text', name, label)
+    block
+
 html
   head
     title Fishing line experiment calculator
-    link(rel='stylesheet', href='lib-3p/bootstrap-3.2.0-dist/css/bootstrap.min.css')
     link(rel='stylesheet', href='app.css')
+    script(src='lib-3p/ASCIIMathML.js')
     script(src='lib-3p/zepto.min.js')
     script(src='lib-3p/query-string.js')
 body
   include:md index.md
+  form
+    +field-text('rho-w', 'water density `rho_w` = ')
+      span kg per `m^3`. This is a function of temperature and salinity and may need to be determined experimentally.
+    +field-text('rho-l', 'line density `rho_l` = ')
+      span kg per `m^3`. Needs to be determined experimentally.
+    +field-text('d', 'line diameter `d` = ')
+      span `mm`
+    +field-text('l', 'submerged line length `l` = ')
+      span `m`. The line length underwater.
+    +field-text('li', 'indicator line length `l_i` = ')
+      span `m`. The unstretched line length from the anchor to the stretch indicator (should be greater than `l`).
+    +field-text('Tmax', 'maximum line tension `T_max` = ')
+      span `N`
+    +field-text('dl', 'line stretch `Delta l_i` = ')
+      span `m`. The amount of line stretch when under tension `T_max`
+    +field-text('nu-l', 'line Poisson ratio `nu_l` = ')
+      span This determines how much the diameter changes when tension is applied.
   script(type='text/javascript', src='app.js')
