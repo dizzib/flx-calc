@@ -10,6 +10,5 @@ $ \#l_i .val 253
 $ \#l_s .val 280
 $ \#m_s .val 224
 $ \#nu .val 0.46
-$ \#rho_l .val 975
 $ \#rho_w .val 1000
-$ \#T_max .val 1000
+$ \#T_max .val 1050
