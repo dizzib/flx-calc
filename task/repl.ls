@@ -11,6 +11,7 @@ Dir    = require \./constants .dir
 Dist   = require \./distribute
 G      = require \./growl
 Inst   = require \./install
+Site   = require \./site
 
 const CHALKS = [Chalk.stripColor, Chalk.yellow, Chalk.red]
 const COMMANDS =
@@ -40,6 +41,7 @@ rl = Rl.createInterface input:process.stdin, output:process.stdout
 
 Build.on \built -> Dist!
 Build.start!
+Site.start!
 
 _.delay show-help, 500ms
 _.delay (-> rl.prompt!), 750ms
