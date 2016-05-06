@@ -3,11 +3,13 @@
 # 'illegal invocation' errors, since console.log expects 'this' to be console.
 window.log = -> console.log ...&
 
-$ \#d .val 1
-$ \#dl .val 0.798
+$ \#d .val 1.005
+$ \#dl_i .val 0.79
 $ \#l .val 250
-$ \#li .val 253
-$ \#nu-l .val 0.46
-$ \#rho-l .val 975
-$ \#rho-w .val 1000
-$ \#Tmax .val 1000
+$ \#l_i .val 253
+$ \#l_s .val 280
+$ \#m_s .val 224
+$ \#nu .val 0.46
+$ \#rho_l .val 975
+$ \#rho_w .val 1000
+$ \#T_max .val 1000
