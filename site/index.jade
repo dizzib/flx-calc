@@ -26,7 +26,7 @@ body
     [MathML](https://www.w3.org/Math/) such as Firefox.
     The source code is freely [available on GitHub.com](https://github.com/dizzib/flx-calc).
   fieldset
-    legend Unstretched line properties
+    legend Line properties at zero tension `T_0`
     +field-text('l_s', 'sample length `l_s` = ')
       span m. The length of line used to calculate the line density 
       span (for accuracy this should be at least `l`).
@@ -46,7 +46,7 @@ body
       span m. The line length from the anchor to pole A plus the unstretched line length
       span  from pole B to an indicator on the line.
   fieldset
-    legend Measurements at maximum tension
+    legend Measurements at maximum tension `T_max`
     +field-text('rho_w', 'water density `rho_w` = ')
       span kg per `m^3`. 
       span This is a function of temperature and may need to be determined experimentally.
@@ -55,10 +55,19 @@ body
     +field-text('T_max', 'line tension `T_max` = ')
       span N
   fieldset
-    legend Results
-    label Line density `rho_l` = 
-    span#rho_l
-    span  kg per `m^3`.
+    legend Calculations
+    .out
+      label `T_0` line radius `r` = `d/2` = 
+      span#r
+      span  mm
+    .out
+      label `T_0` line density `rho_l` = `m_s/(l_s pi r^2)` = 
+      span#rho_l
+      span  kg per `m^3`.
+    .out
+      label `T_max` diameter change `Delta d` = `-d*nu (Delta l_i)/(l_i + x)` = 
+      span#dd
+      span mm
 
   script(src='calc.js')
   script(src='app.js')
