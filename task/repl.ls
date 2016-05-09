@@ -39,7 +39,7 @@ rl = Rl.createInterface input:process.stdin, output:process.stdout
     rl.resume!
     rl.prompt!
 
-Build.on \built -> Dist!
+Build.on \built Dist
 Build.start!
 Site.start!
 

@@ -88,7 +88,7 @@ function start-watching tid
   dirs = "#{Dirname.SITE},#{Dirname.TASK}"
   w = t.watcher = Choki.watch [ "{#dirs}/**/#pat" pat ],
     cwd:Dir.ROOT
-    ignored:<[ _build node_modules ]>
+    ignored:<[ _build/ node_modules/ package.json ]>
     ignoreInitial:true
     persistent: false
   w.on \all (act, ipath) ->
@@ -99,10 +99,10 @@ function start-watching tid
         try opath = W4 compile, t, ipath
         catch e then return G.err e
         G.ok opath
-        me.emit \built
+        me.emit \built ipath
       | \unlink
         Assert.equal pwd!, Dir.BUILD
         try W4m Fs, \unlink opath = get-opath t, ipath
         catch e then throw e unless e.code is \ENOENT # not found i.e. already deleted
         G.ok "Delete #opath"
-        me.emit \built
+        me.emit \built ipath
