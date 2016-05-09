@@ -88,6 +88,7 @@ function start-watching tid
   dirs = "#{Dirname.SITE},#{Dirname.TASK}"
   w = t.watcher = Choki.watch [ "{#dirs}/**/#pat" pat ],
     cwd:Dir.ROOT
+    ignored:<[ _build node_modules ]>
     ignoreInitial:true
     persistent: false
   w.on \all (act, ipath) ->

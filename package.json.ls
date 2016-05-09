@@ -12,7 +12,7 @@ scripts:
   start: './task/bootstrap && node ./_build/task/repl'
 devDependencies:
   chalk        : \~0.4.0
-  chokidar     : \~1.0.1
+  chokidar     : \~1.4.3
   growly       : \~1.2.0
   jade         : \~1.6.0
   livescript   : \~1.4.0
