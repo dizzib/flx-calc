@@ -56,7 +56,7 @@ body
       span N
   fieldset
     legend Calculations
-    .out
+    .out.hide
       label `T_0` line radius `r` =  
       span#r
       span  mm
@@ -65,13 +65,17 @@ body
       span#rho_l
       span  kg per `m^3`.
     .out
-      label `T_max` line density `rho_(lT)` =  
+      label `T_max` line density `rho_(lTmax)` =  
       span#rho_lT
       span  kg per `m^3`.
     .out
       label `T_max` diameter change `Delta d` =  
       span#dd
       span mm
+    .out
+      label `T_max` sag at centre `y_c` =  
+      span#y_c
+      span  mm
 
   script(src='calc.js')
   script(src='app.js')
