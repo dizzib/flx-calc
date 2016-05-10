@@ -1,15 +1,13 @@
-mixin field-label(name, label)
-  - var label = label || name
-  label(for=name) #{label}
-
-mixin field-input(type, name, label)
-  .field
-    +field-label(name, label)
-    input(type=type, id=name)
+mixin field-check(id, label)
+  .field-check
+    label(for=id) #{label}
+    input(type='checkbox', id=id)
     block
 
-mixin field-text(name, label)
-  +field-input('text', name, label)
+mixin field-text(id, label)
+  .field-text
+    label(for=id) #{label}
+    input(type='text', id=id)
     block
 
 html
@@ -47,13 +45,14 @@ body
       span  from pole B to an indicator on the line.
   fieldset
     legend Measurements at maximum tension `T_max`
+    +field-text('T_max', 'line tension `T_max` = ')
+      span N
+    +field-text('dl_i', 'line stretch `Delta l_i` = ')
+      span m. How far the indicator moves when `T_max` is applied.
+    +field-check('nb', 'Calibrate the water density to make the line neutrally buoyant?')
     +field-text('rho_w', 'water density `rho_w` = ')
       span kg per `m^3`. 
       span This is a function of temperature and may need to be determined experimentally.
-    +field-text('dl_i', 'line stretch `Delta l_i` = ')
-      span m. How far the indicator moves when `T_max` is applied.
-    +field-text('T_max', 'line tension `T_max` = ')
-      span N
   fieldset
     legend Calculations
     .out.hide

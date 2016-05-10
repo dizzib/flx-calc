@@ -21,6 +21,7 @@ window.calc = ->
   rho_lT = KG-PER-GRAM * it.m_s / v_sT # stretched sample density (kg per m^3)
 
   # sag at Tmax
+  it.rho_w = rho_l if it.nb # set water density if neutral buoyancy
   v1 = a_T * 1m # volume of water displaced per metre of line (m^3)
   b1 = it.rho_w * v1 * G # buoyancy per metre (N)
   w1 = rho_lT * v1 * G # weight per metre (N)
@@ -33,4 +34,5 @@ window.calc = ->
   r:r * MM-PER-METRE
   rho_l:rho_l
   rho_lT:rho_lT
+  rho_w:it.rho_w
   y_c:y_c * MM-PER-METRE
