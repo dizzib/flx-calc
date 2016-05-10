@@ -19,6 +19,7 @@ window.calc = ->
   a_T = PI * r_T^2  # cross-section area (m^2)
   v_sT = a_T * it.l_s * (1 + dl-ratio) # stretched sample volume (m^3)
   rho_lT = KG-PER-GRAM * it.m_s / v_sT # stretched sample density (kg per m^3)
+  E = it.T_max / (a * dl-ratio) # Young's modulus (Pa)
 
   # sag at Tmax
   it.rho_w = rho_l if it.nb # set water density if neutral buoyancy
@@ -31,6 +32,7 @@ window.calc = ->
   # outs
   dd:dd
   dl_percent:dl-ratio * 100
+  E:E / 10^9 # GPa
   r:r * MM-PER-METRE
   rho_l:rho_l
   rho_lT:rho_lT
