@@ -12,8 +12,8 @@ window.calc = ->
   rho_l = KG-PER-GRAM * it.m_s / v_s # density (kg per m^3)
 
   # line properties at max-tension Tmax
-  lai = it.x + it.l_i # total line length from anchor to indicator (m)
-  dl-ratio = it.dl_i / lai # line stretch ratio
+  l = it.x + it.l_o # total line length from anchor to indicator (m)
+  dl-ratio = it.dl / l # line stretch ratio
   dd = - it.nu * it.d * dl-ratio # diameter change (mm) using Poisson ratio
   r_T = METRES-PER-MM * (it.d + dd) / 2  # radius (m)
   a_T = PI * r_T^2  # cross-section area (m^2)
@@ -26,13 +26,13 @@ window.calc = ->
   b1 = it.rho_w * v1 * G # buoyancy per metre (N)
   w1 = rho_lT * v1 * G # weight per metre (N)
   f1 = w1 - b1 # net vertical force per metre (N)
-  y_c = f1 * it.x^2 / (8 * it.T_max) # sag at the centre (m)
+  y = f1 * it.x^2 / (8 * it.T_max) # sag at the centre (m)
 
   # outs
   dd:dd
-  lai:lai
+  dl_percent:dl-ratio * 100
   r:r * MM-PER-METRE
   rho_l:rho_l
   rho_lT:rho_lT
   rho_w:it.rho_w
-  y_c:y_c * MM-PER-METRE
+  y:y * MM-PER-METRE

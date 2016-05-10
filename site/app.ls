@@ -3,7 +3,7 @@
 # 'illegal invocation' errors, since console.log expects 'this' to be console.
 window.log = -> console.log ...&
 
-const DEFAULT-INS = d:1.1 dl_i:1.5 x:250 l_i:3 l_s:280 m_s:250 nb:true nu:0.46 rho_w:1000 T_max:1050
+const DEFAULT-INS = d:1.1 dl:1.5 x:250 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max:1000
 
 populate-ins DEFAULT-INS
 calculate!

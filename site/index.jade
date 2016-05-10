@@ -27,7 +27,6 @@ body
     legend Line properties at zero tension `T_0`
     +field-text('l_s', 'sample length `l_s` = ')
       span m. The length of line used to calculate the line density 
-      span (for accuracy this should be at least `l`).
     +field-text('m_s', 'sample mass `m_s` = ')
       span g.
     +field-text('d', 'average diameter `d` = ')
@@ -40,41 +39,37 @@ body
     legend Apparatus dimensions
     +field-text('x', 'pole span `x` = ')
       span m. The distance between the two poles (the depth meters at each end).
-    +field-text('l_i', 'line length to indicator `l_i` = ')
+    +field-text('l_o', 'outer line length `l_o` = ')
       span m. The line length from the anchor to pole A plus the unstretched line length
       span  from pole B to an indicator on the line.
   fieldset
     legend Measurements at maximum tension `T_max`
     +field-text('T_max', 'line tension `T_max` = ')
       span N
-    +field-text('dl_i', 'line stretch `Delta l_i` = ')
+    +field-text('dl', 'line stretch `Delta l` = ')
       span m. How far the indicator moves when `T_max` is applied.
     +field-check('nb', 'Calibrate the water density to make the line neutrally buoyant?')
     +field-text('rho_w', 'water density `rho_w` = ')
       span kg per `m^3`. 
-      span This is a function of temperature and may need to be determined experimentally.
+      span This is a function of temperature.
   fieldset
     legend Calculations
-    .out.hide
-      label `T_0` line radius `r` =  
-      span#r
+    b.out
+      label sag at centre `y` =  
+      span#y
       span  mm
     .out
-      label `T_0` line density `rho_l` =  
+      label `T_0` line density =  
       span#rho_l
       span  kg per `m^3`.
     .out
-      label `T_max` line density `rho_(lTmax)` =  
+      label `T_max` line density =  
       span#rho_lT
       span  kg per `m^3`.
     .out
-      label `T_max` diameter change `Delta d` =  
+      label diameter change `Delta d` =  
       span#dd
       span mm
-    .out
-      label `T_max` sag at centre `y_c` =  
-      span#y_c
-      span  mm
 
   script(src='calc.js')
   script(src='app.js')
