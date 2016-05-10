@@ -8,7 +8,8 @@ const DEFAULT-INS = d:1.1 dl:1.5 x:250 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max
 $ \input .on \change -> calculate!
 $ \#nb .on \change -> set-rho_w-access!
 
-populate-ins DEFAULT-INS
+ins = get-ins-by-querystring!
+populate-ins ins
 set-rho_w-access!
 calculate!
 
@@ -18,6 +19,13 @@ function calculate
   $ 'input[type="text"]' .each -> ins[$ @ .attr \id] = parseFloat($ @ .val!)
   outs = window.calc ins
   for k, v of outs then $ "##k" .text v .val v
+  set-querystring-by-ins ins
+
+function get-ins-by-querystring
+  ins = DEFAULT-INS
+  qs = queryString.parse location.search
+  for k, v of qs then ins[k] = if k is \nb then (v is \true) else v
+  ins
 
 function populate-ins
   for k, v of it
@@ -26,3 +34,7 @@ function populate-ins
 
 function set-rho_w-access
   $ \#rho_w .prop \disabled ($ \#nb .prop \checked)
+
+function set-querystring-by-ins
+  qs = queryString.stringify it
+  history.replaceState void "" "?#qs"
