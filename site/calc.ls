@@ -1,4 +1,5 @@
 window.calc = ->
+  const EARTH-RADIUS  = 6371km * 1000m
   const G             = 9.81 # m/s^2
   const KG-PER-GRAM   = 0.001
   const METRES-PER-MM = 0.001
@@ -29,10 +30,15 @@ window.calc = ->
   f1 = w1 - b1 # net vertical force per metre (N)
   y = f1 * it.x^2 / (8 * it.T_max) # sag at the centre (m)
 
+  # earth curve
+  x_c = it.x / 2 # distance from line-pole to line-centre (m)
+  dh = Math.sqrt(x_c^2 + EARTH-RADIUS^2) - EARTH-RADIUS # water height difference (m)
+
   # outs
   dd:dd
   dl_percent:dl-ratio * 100
   E:E / 10^9 # GPa
+  dh:dh * MM-PER-METRE
   r:r * MM-PER-METRE
   rho_l:rho_l
   rho_lT:rho_lT
