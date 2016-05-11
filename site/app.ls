@@ -8,8 +8,7 @@ const DEFAULT-INS = d:1.1 dl:1.5 x:250 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max
 $ \input .on \change -> calculate!
 $ \#nb .on \change -> set-rho_w-access!
 
-ins = get-ins-by-querystring!
-populate-ins ins
+populate-ins get-ins-by-querystring!
 set-rho_w-access!
 calculate!
 
