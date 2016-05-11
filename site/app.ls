@@ -18,7 +18,7 @@ function calculate
   $ 'input[type="checkbox"]' .each -> ins[$ @ .attr \id] = $ @ .prop \checked
   $ 'input[type="text"]' .each -> ins[$ @ .attr \id] = parseFloat($ @ .val!)
   outs = window.calc ins
-  for k, v of outs then $ "##k" .text v .val v
+  for k, v of outs then $ "##k" .text(round v).val(round v)
   set-querystring-by-ins ins
 
 function get-ins-by-querystring
@@ -31,6 +31,9 @@ function populate-ins
   for k, v of it
     t = ($el = $ "##k").attr \type
     if t is \checkbox then ($el.prop \checked v) else $el.val v
+
+function round
+  (Math.round it * 10^4) / 10^4
 
 function set-rho_w-access
   $ \#rho_w .prop \disabled ($ \#nb .prop \checked)
