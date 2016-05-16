@@ -3,7 +3,7 @@
 # 'illegal invocation' errors, since console.log expects 'this' to be console.
 window.log = -> console.log ...&
 
-const DEFAULT-INS = d:1.1 dl:1.5 x:250 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max:1000
+const DEFAULT-INS = d:1.1 dl:1.5 dy:0.1 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max:1000 x:250
 
 $ \input .on \change -> calculate!
 $ \#nb .on \change -> set-rho_w-access!
@@ -17,7 +17,10 @@ function calculate
   $ 'input[type="checkbox"]' .each -> ins[$ @ .attr \id] = $ @ .prop \checked
   $ 'input[type="text"]' .each -> ins[$ @ .attr \id] = parseFloat($ @ .val!)
   outs = window.calc ins
-  for k, v of outs then $ "##k" .text(round v).val(round v)
+  for k, v of outs
+    v = (Math.round v * 10^4) / 10^4 # round to 4 decimal places
+    $ "##k, .#k" .text(v).val(v)
+    ins[k] = v if ins[k] # update (some) ins with rounded outs
   set-querystring-by-ins ins
 
 function get-ins-by-querystring
@@ -30,9 +33,6 @@ function populate-ins
   for k, v of it
     t = ($el = $ "##k").attr \type
     if t is \checkbox then ($el.prop \checked v) else $el.val v
-
-function round
-  (Math.round it * 10^4) / 10^4
 
 function set-rho_w-access
   $ \#rho_w .prop \disabled ($ \#nb .prop \checked)

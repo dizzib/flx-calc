@@ -10,6 +10,14 @@ mixin field-text(id, label)
     input(type='text', id=id)
     block
 
+mixin out-range(id)
+  .out
+    label acceptable range of #{id} = 
+    span(id='dY_' + id)
+    |  &plusmn; 
+    span.u-dY
+    |  mm
+
 html
   head
     title Fishing line experiment calculator
@@ -26,58 +34,76 @@ body
   fieldset
     legend Line properties at zero tension `T_0`
     +field-text('l_s', 'sample length `l_s` = ')
-      span m. The length of line used to calculate the line density 
+      | m. The length of line used to calculate the line density 
     +field-text('m_s', 'sample mass `m_s` = ')
-      span g.
+      | g.
     +field-text('d', 'diameter `d` = ')
-      span mm.
+      | mm.
     +field-text('nu', 'Poisson ratio `nu` = ')
-      span . This determines how much the diameter changes when tension is applied.
+      | . This determines how much the diameter changes when tension is applied.
   fieldset
-    legend Apparatus dimensions
+    legend Apparatus setup
     +field-text('x', 'pole span `x` = ')
-      span m. The distance between the two poles (the depth meters at each end).
+      | m. The distance between the two poles (the depth meters at each end).
     +field-text('l_o', 'outer line length `l_o` = ')
-      span m. The line length from the anchor to pole A plus the unstretched line length
-      span  from pole B to an indicator on the line.
+      | m. The line length from the anchor to pole A plus the unstretched line length
+      |  from pole B to an indicator on the line.
+    +field-check('nb', 'Calibrate the water density to make the line neutrally buoyant?')
+    +field-text('rho_w', 'water density `rho_w` = ')
+      | kg/`m^3`. This is a function of temperature.
   fieldset
     legend Measurements at maximum tension `T_max`
     +field-text('T_max', 'line tension `T_max` = ')
-      span N
+      | N
     +field-text('dl', 'line stretch `Delta l` = ')
-      span m. How far the indicator moves when `T_max` is applied.
-    +field-check('nb', 'Calibrate the water density to make the line neutrally buoyant?')
-    +field-text('rho_w', 'water density `rho_w` = ')
-      span kg/`m^3`. 
-      span This is a function of temperature.
+      | m. How far the indicator moves when `T_max` is applied.
+    +field-text('uy', 'water-level or line-depth reading uncertainty `+-deltay` = ')
+      | mm.
+      | If gradations on a ruler are at 1mm intervals, a skillful experimenter 
+      a(href='https://youtu.be/uZ0ILIG_l7w') should be able to estimate
+      |  to within +/- 0.1mm.
+      | However, this figure is somewhat subjective and may increase with
+      | difficulties such as parallax, lack of magnification, the clarity/focus of
+      | the water/line, whether the ruler is part obscured, etc.
   fieldset
-    legend Calculated conditions at line's centre point
+    legend Calculated conditions at line's midpoint
     .out
-      label line sag `y` = 
-      span.bold#y
-      span  mm
+      label line sag = 
+      span.bold#sag
+      |  mm
     .out
       label water height difference due to earth's curvature `Delta h` = &plusmn; 
-      span#dh
-      span  mm
+      span.bold#dh
+      |  mm
+    +out-range('concave')
+    +out-range('flat')
+    +out-range('convex')
+    .out
+      label separation of acceptable ranges = 
+      span#u-sep
+      |  mm = 
+      span.bold#u-sep-perc
+      |  % of `Delta h`.
+      | A negative value indicates overlapping ranges, rendering any result
+      | inconclusive, and a value of 0 leaves no room for error.
   fieldset
     legend Calculated line properties
     .out
       label `T_0` density = 
       span#rho_l
-      span  kg/`m^3`.
+      |  kg/`m^3`.
     .out
       label `T_max` density = 
       span#rho_lT
-      span  kg/`m^3`.
+      |  kg/`m^3`.
     .out
       label diameter change `Delta d` = 
       span#dd
-      span  mm
+      |  mm
     .out
       label Young's modulus `E` = 
       span#E
-      span  GPa
+      |  GPa
 
   script(src='calc.js')
   script(src='app.js')
