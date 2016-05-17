@@ -36,7 +36,7 @@ window.calc = ->
   dh = Math.sqrt(x_C^2 + EARTH-RADIUS^2) - EARTH-RADIUS # water height difference (m)
   dh-mm = dh * MM-PER-METRE # water height difference (mm)
 
-  # uncertainty analysis
+  # measurement uncertainty analysis
   #
   # The difference in depth between the midpoint and poles is given by:
   #
@@ -48,8 +48,11 @@ window.calc = ->
   #
   uy = it.uy # uncertainty of a single reading (mm)
   u-dY = uy + uy + (uy + uy + uy + uy) / 2 # uncertainty of dY (mm)
-  u-sep = dh-mm - u-dY - u-dY # separation of acceptable ranges (mm)
-  u-sep-perc = 100 * u-sep / dh-mm # separation of acceptable ranges (% of dh)
+
+  # standard deviations by 3-sigma (99.73%) for a normal distribution
+  sigma_c = dh-mm * 0.5 / 3 # control, allowing scatter to halfway to next predicted dY (mm)
+  sigma_u = u-dY / 3 # measurement uncertainty (mm)
+  sigma_u-perc = 100 * sigma_u / sigma_c # measurement uncertainty (% of control)
 
   dd:dd
   dl_percent:dl-ratio * 100
@@ -63,6 +66,6 @@ window.calc = ->
   rho_lT:rho_lT
   rho_w:it.rho_w
   sag:sag-mm
-  'u-sep':u-sep
-  'u-sep-perc':Math.round u-sep-perc
-  'u-dY':u-dY
+  sigma_c:sigma_c
+  sigma_u:sigma_u
+  'sigma_u-perc':Math.round sigma_u-perc

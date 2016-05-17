@@ -10,13 +10,18 @@ mixin field-text(id, label)
     input(type='text', id=id)
     block
 
-mixin out-range(id)
-  .out
-    label acceptable range of #{id} = 
-    span(id='dY_' + id)
-    |  &plusmn; 
-    span.u-dY
-    |  mm
+mixin help
+  span.help.closed
+    span.closed
+      |  [
+      span.help-btn explain
+      |] 
+    span.open
+      |  [
+      span.help-btn hide
+      |] 
+      .help-text
+        block
 
 html
   head
@@ -46,8 +51,10 @@ body
     +field-text('x', 'pole span `x` = ')
       | m. The distance between the two poles (the depth meters at each end).
     +field-text('l_o', 'outer line length `l_o` = ')
-      | m. The line length from the anchor to pole A plus the unstretched line length
-      |  from pole B to an indicator on the line.
+      | m.
+      +help
+        | The line length from the anchor to pole A plus the unstretched line length
+        | from pole B to an indicator on the line.
     +field-check('nb', 'Calibrate the water density to make the line neutrally buoyant?')
     +field-text('rho_w', 'water density `rho_w` = ')
       | kg/`m^3`. This is a function of temperature [
@@ -59,14 +66,15 @@ body
       | N
     +field-text('dl', 'line stretch `Delta l` = ')
       | m. How far the indicator moves when `T_max` is applied.
-    +field-text('uy', 'water-level or line-depth reading uncertainty `+-deltay` = ')
+    +field-text('uy', 'water/line level reading uncertainty `+-deltay` = ')
       | mm.
-      | If a ruler has 1mm gradations, a skillful experimenter 
-      a(href='https://youtu.be/uZ0ILIG_l7w') should be able to estimate
-      |  to within &plusmn; 0.1mm.
-      | However, this figure is somewhat subjective and may increase with
-      | difficulties such as parallax, lack of magnification, the clarity/focus of
-      | the water/line, whether the ruler is part obscured, etc.
+      +help
+        | If a ruler has 1mm gradations, a skillful experimenter 
+        a(href='https://youtu.be/uZ0ILIG_l7w') should be able to estimate
+        |  to within &plusmn; 0.1mm.
+        | However, this figure is somewhat subjective and may increase with
+        | difficulties such as parallax, lack of magnification, the clarity/focus of
+        | the water/line, whether the ruler is part obscured, etc.
   fieldset
     legend Calculated conditions at line's midpoint
     .out
@@ -77,17 +85,39 @@ body
       label water height difference due to earth's curvature `Delta h` = &plusmn; 
       span.bold#dh
       |  mm
-    +out-range('concave')
-    +out-range('flat')
-    +out-range('convex')
     .out
-      label separation of acceptable ranges = 
-      span#u-sep
+      label predicted difference in depth `DeltaY_(pred)` of concave = 
+      span#dY_concave
+      |  mm, flat = 
+      span#dY_flat
+      |  mm, convex = 
+      span#dY_convex
+      |  mm
+    .out
+      label standard deviation control `sigma_c` = 
+      span#sigma_c
+      |  mm.
+      +help
+        | A threshold beyond which the line is deemed to fluctuate significantly
+        | over time due to random error.
+        | In a set of observed `DeltaY` having `sigma < sigma_c` every `DeltaY`
+        | will be closest to one and only one `DeltaY_(pred)` -- this is good!
+        | If `sigma > sigma_c` then some of the observed `DeltaY` may be
+        | closer to a neighbouring `DeltaY_(pred)` -- this isn't so good.
+    .out
+      label standard deviation of measurement uncertainty `sigma_u` = 
+      span#sigma_u
       |  mm = 
-      span.bold#u-sep-perc
-      |  % of `Delta h`.
-      | A negative value indicates overlapping ranges, rendering any result
-      | inconclusive, and a value of 0 leaves no room for error.
+      span.bold#sigma_u-perc
+      |  % of `sigma_c`.
+      +help
+        | The expected amount of variation caused by water/line level measurement
+        | errors in a set of observed `DeltaY`.
+        | The % indicates if there's enough measurement precision to allow
+        | for other errors and should be kept low, either by increasing the pole
+        | span `x` or decreasing the measurement uncertainty `deltay`.
+        | A value < 50% graciously allows for errors from other sources -- this is good!
+        | A value > 100% leaves no room for other errors -- this is bad.
   fieldset
     legend Calculated line properties
     .out

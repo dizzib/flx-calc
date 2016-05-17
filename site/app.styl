@@ -1,7 +1,7 @@
 body
-  background  white
-  color       black
-  margin      1em
+  background    white
+  color         black
+  margin        1em
 
 fieldset
   margin-top    1em
@@ -25,6 +25,21 @@ input[type='text']
 
 .field-text
   margin-bottom 0.5em
+
+.help
+  &.closed
+    .open
+      display   none
+  &.open
+    .closed
+      display   none
+
+.help-btn
+  color         blue
+  cursor        pointer
+
+.help-text
+  background    yellow
 
 .hide
   display       none
