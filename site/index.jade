@@ -86,11 +86,11 @@ body
       span.bold#dh
       |  mm
     .out
-      label predicted difference in depth `DeltaY_(pred)` of concave = 
+      label predicted line depth difference of concave `DeltaY_(conc)` = 
       span#dY_concave
-      |  mm, flat = 
+      |  mm, flat `DeltaY_(flat)` = 
       span#dY_flat
-      |  mm, convex = 
+      |  mm, convex `DeltaY_(conv)` = 
       span#dY_convex
       |  mm
     .out
@@ -98,26 +98,29 @@ body
       span#sigma_c
       |  mm.
       +help
-        | A threshold beyond which the line is deemed to fluctuate significantly
-        | over time due to random error.
-        | In a set of observed `DeltaY` having `sigma < sigma_c` every `DeltaY`
-        | will be closest to one and only one `DeltaY_(pred)` -- this is good!
-        | If `sigma > sigma_c` then some of the observed `DeltaY` may be
-        | closer to a neighbouring `DeltaY_(pred)` -- this isn't so good.
+        | A threshold beyond which a set of measurements might contain 
+        a(href='https://en.wikipedia.org/wiki/Outlier') outliers
+        | . For example, given a set of measurements of `DeltaY` 
+        a(href='https://en.wikipedia.org/wiki/Normal_distribution') normally distributed
+        |  with average `DeltaY_(conc)`, if `sigma < sigma_c` then 
+        a(href='https://en.wikipedia.org/wiki/68-95-99.7_rule') 99.7%
+        |  of measurements will be closer to `DeltaY_(conc)` than `DeltaY_(flat)`.
+        | If `sigma > sigma_c` then some measurements may be outlying
+        | closer to `DeltaY_(flat)`.
     .out
-      label standard deviation of measurement uncertainty `sigma_u` = 
+      label standard deviation of reading errors `sigma_u` = 
       span#sigma_u
       |  mm = 
       span.bold#sigma_u-perc
       |  % of `sigma_c`.
       +help
-        | The expected amount of variation caused by water/line level measurement
-        | errors in a set of observed `DeltaY`.
-        | The % indicates if there's enough measurement precision to allow
-        | for other errors and should be kept low, either by increasing the pole
-        | span `x` or decreasing the measurement uncertainty `deltay`.
-        | A value < 50% graciously allows for errors from other sources -- this is good!
-        | A value > 100% leaves no room for other errors -- this is bad.
+        | The expected amount of variation caused by water/line level reading
+        | errors in a set of measurements of `DeltaY`.
+        | The % indicates if there's enough reading precision to allow
+        | for other errors, and should be kept low either by increasing the pole
+        | span `x` or decreasing the reading uncertainty `deltay`.
+        | A value < 50% sufficiently allows for errors from other sources, but
+        | a value > 75% leaves little room for other errors.
   fieldset
     legend Calculated line properties
     .out
