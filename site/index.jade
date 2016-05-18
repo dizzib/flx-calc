@@ -69,7 +69,7 @@ body
     +field-text('uy', 'water/line level reading uncertainty `+-deltay` = ')
       | mm.
       +help
-        | If a ruler has 1mm gradations, a skillful experimenter 
+        | A skillful experimenter using a ruler with 1mm gradations 
         a(href='https://youtu.be/uZ0ILIG_l7w') should be able to estimate
         |  to within &plusmn; 0.1mm.
         | However, this figure is somewhat subjective and may increase with
@@ -104,7 +104,7 @@ body
         a(href='https://en.wikipedia.org/wiki/Normal_distribution') normally distributed
         |  with average `DeltaY_(conc)`, if `sigma < sigma_o` then 
         a(href='https://en.wikipedia.org/wiki/68-95-99.7_rule') 99.7%
-        |  of measurements will be closer to `DeltaY_(conc)` than `DeltaY_(flat)`.
+        |  of measurements will be lying closer to `DeltaY_(conc)` than `DeltaY_(flat)`.
         | If `sigma > sigma_o` then some measurements may be outlying
         | closer to `DeltaY_(flat)`.
     .out
@@ -114,13 +114,11 @@ body
       span.bold#sigma_u-perc
       |  % of `sigma_o`.
       +help
-        | The expected amount of variation caused by water/line level reading
+        | The expected SD caused by water/line level reading
         | errors in a set of measurements of `DeltaY`.
-        | The % indicates if there's enough reading precision to allow
-        | for other errors, and should be kept low either by increasing the pole
-        | span `x` or decreasing the reading uncertainty `deltay`.
-        | A value < 50% sufficiently allows for errors from other sources, but
-        | a value > 75% leaves little room for other errors.
+        | A value < 50% sufficiently allows for other random errors, whereas
+        | a value > 100% means other random errors will start producing
+        | outliers.
   fieldset
     legend Calculated line properties
     .out
