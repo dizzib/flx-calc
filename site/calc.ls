@@ -50,9 +50,9 @@ window.calc = ->
   u-dY = uy + uy + (uy + uy + uy + uy) / 2 # uncertainty of dY (mm)
 
   # standard deviations by 3-sigma (99.73%) for a normal distribution
-  sigma_c = dh-mm * 0.5 / 3 # control, allowing scatter to halfway to next predicted dY (mm)
+  sigma_o = dh-mm * 0.5 / 3 # outliers, allowing scatter to halfway to next predicted dY (mm)
   sigma_u = u-dY / 3 # measurement uncertainty (mm)
-  sigma_u-perc = 100 * sigma_u / sigma_c # measurement uncertainty (% of control)
+  sigma_u-perc = 100 * sigma_u / sigma_o # measurement uncertainty (% of outlier)
 
   dd:dd
   dl_percent:dl-ratio * 100
@@ -66,6 +66,6 @@ window.calc = ->
   rho_lT:rho_lT
   rho_w:it.rho_w
   sag:sag-mm
-  sigma_c:sigma_c
+  sigma_o:sigma_o
   sigma_u:sigma_u
   'sigma_u-perc':Math.round sigma_u-perc
