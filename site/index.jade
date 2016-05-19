@@ -35,6 +35,7 @@ body
     # Fishing Line Experiment Calculator
     To view this page properly please use a browser that supports
     [MathML](https://www.w3.org/Math/) such as Firefox.
+    Bug reports and suggestions can be added to the [issues log](https://github.com/dizzib/flx-calc/issues).
     The source code is freely [available on GitHub.com](https://github.com/dizzib/flx-calc).
   fieldset
     legend Line properties at zero tension `T_0`
@@ -102,10 +103,9 @@ body
         a(href='https://en.wikipedia.org/wiki/Outlier') outliers
         | . For example, given a set of measurements of `DeltaY` 
         a(href='https://en.wikipedia.org/wiki/Normal_distribution') normally distributed
-        |  with average `DeltaY_(conc)`, if `sigma < sigma_o` then 
-        a(href='https://en.wikipedia.org/wiki/68-95-99.7_rule') 99.7%
-        |  of measurements will be lying closer to `DeltaY_(conc)` than `DeltaY_(flat)`.
-        | If `sigma > sigma_o` then some measurements may be outlying
+        |  with average `DeltaY_(conc)`, if `sigma < sigma_o` then every
+        | measurement will be lying closer to `DeltaY_(conc)` than `DeltaY_(flat)`.
+        | If `sigma > sigma_o` then some measurements might be outlying
         | closer to `DeltaY_(flat)`.
     .out
       label standard deviation of reading errors `sigma_u` = 
@@ -116,6 +116,8 @@ body
       +help
         | The expected SD caused by water/line level reading
         | errors in a set of measurements of `DeltaY`.
+        | The % is a guide as to whether the reading precision is good
+        | enough for the given pole span.
         | A value < 50% sufficiently allows for other random errors, whereas
         | a value > 100% means other random errors will start producing
         | outliers.
