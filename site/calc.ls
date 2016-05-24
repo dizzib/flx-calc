@@ -1,35 +1,48 @@
 window.calc = ->
   const EARTH-RADIUS  = 6371km * 1000m
-  const G             = 9.81 # m/s^2
+  const G             = 9.81 # acceleration due to gravity (m/s^2)
   const KG-PER-GRAM   = 0.001
   const METRES-PER-MM = 0.001
   const MM-PER-METRE  = 1000
+  const NU-H2O        = 1.081 * 10^-6 # kinematic viscosity of water at 17C (m^2/s)
   const PI            = 3.14159265
+  const SECS-PER-MIN  = 60
 
   # line properties at zero-tension T0
   r = METRES-PER-MM * it.d / 2  # radius (m)
   a = PI * r^2  # cross-section area (m^2)
-  v_s = a * it.l_s  # sample volume (m^3)
-  rho_l = KG-PER-GRAM * it.m_s / v_s # density (kg per m^3)
+  vol_s = a * it.l_s  # sample volume (m^3)
+  rho_l = KG-PER-GRAM * it.m_s / vol_s # density (kg per m^3)
+  it.rho_w = rho_l if it.nb # set water density if neutral buoyancy
 
   # line properties at max-tension Tmax
   l = it.x + it.l_o # total line length from anchor to indicator (m)
   dl-ratio = it.dl / l # line stretch ratio
   dd = - it.nu * it.d * dl-ratio # diameter change (mm) using Poisson ratio
-  r_T = METRES-PER-MM * (it.d + dd) / 2  # radius (m)
+  d_T = METRES-PER-MM * (it.d + dd) # diameter (m)
+  r_T = d_T / 2 # radius (m)
   a_T = PI * r_T^2  # cross-section area (m^2)
-  v_sT = a_T * it.l_s * (1 + dl-ratio) # stretched sample volume (m^3)
-  rho_lT = KG-PER-GRAM * it.m_s / v_sT # stretched sample density (kg per m^3)
+  vol_sT = a_T * it.l_s * (1 + dl-ratio) # stretched sample volume (m^3)
+  rho_lT = KG-PER-GRAM * it.m_s / vol_sT # stretched sample density (kg per m^3)
   young-mod = it.T_max / (a * dl-ratio) # Young's modulus (Pa) -- not used in calculation
+  v-ms = it.v * METRES-PER-MM / SECS-PER-MIN # drift velocity (m per s)
+  re = (Math.abs v-ms) * d_T / NU-H2O # Reynolds number -- chord length is line diameter
+  c_d = 8 * PI / (re * (2.002 - Math.log re)) # drag coefficient, by Lamb approximation
 
-  # line sag at Tmax
-  it.rho_w = rho_l if it.nb # set water density if neutral buoyancy
-  v1 = a_T * 1m # volume of water displaced per metre of line (m^3)
-  b1 = it.rho_w * v1 * G # buoyancy per metre (N)
-  w1 = rho_lT * v1 * G # weight per metre (N)
-  f1 = w1 - b1 # net vertical force per metre (N)
-  sag = f1 * it.x^2 / (8 * it.T_max) # midpoint sag, by parabolic approximation (m)
-  sag-mm = sag * MM-PER-METRE # midpoint sag (mm)
+  # forces acting on a 1 metre portion of line at Tmax
+  unit-vol = a_T * 1m # volume of water displaced (m^3)
+  unit-b = it.rho_w * unit-vol * G # buoyancy up (N)
+  unit-w = rho_lT * unit-vol * G # line weight (N)
+  unit-a-proj = d_T * 1m # projected area perpendicular to flow (m^2)
+  unit-d = if c_d then it.rho_w * v-ms^2 * c_d * unit-a-proj / 2 else 0 # viscous drag (N)
+  unit-d = - unit-d if v-ms < 0 # correct sign for viscous drag down (N)
+
+  # line midpoint sag at Tmax
+  factor = it.x^2 / (8 * it.T_max) # parabolic approximation factor (m)
+  sag_dl = (unit-w - unit-b) * factor # due to line density change (m)
+  sag_v = unit-d * factor # due to prevailing current and/or mis-calibration (m)
+  sag = sag_dl + sag_v # total (m)
+  sag-mm = sag * MM-PER-METRE # total (mm)
 
   # earth curve
   x_C = it.x / 2 # distance from line pole to midpoint (m)
@@ -54,6 +67,10 @@ window.calc = ->
   sigma_u = u-dY / 3 # measurement uncertainty (mm)
   sigma_u-perc = 100 * sigma_u / sigma_o # measurement uncertainty (% of outlier)
 
+  # alerts
+  re-class = if re > 1 then \alert
+
+  c_d:{val:c_d, class:re-class}
   dd:dd
   dl_percent:dl-ratio * 100
   dh:dh-mm
@@ -62,10 +79,14 @@ window.calc = ->
   dY_flat: 0mm + sag-mm
   E:young-mod / 10^9 # GPa
   r:r * MM-PER-METRE
+  re:{val:re, class:re-class}
   rho_l:rho_l
   rho_lT:rho_lT
   rho_w:it.rho_w
   sag:sag-mm
+  sag_dl:sag_dl * MM-PER-METRE
+  sag_v:{val:sag_v * MM-PER-METRE, class:re-class}
   sigma_o:sigma_o
   sigma_u:sigma_u
   'sigma_u-perc':Math.round sigma_u-perc
+

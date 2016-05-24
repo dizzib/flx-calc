@@ -3,7 +3,7 @@
 # 'illegal invocation' errors, since console.log expects 'this' to be console.
 window.log = -> console.log ...&
 
-const DEFAULT-INS = d:1.1 dl:1.5 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max:1000 uy:0.1 x:250
+const DEFAULT-INS = d:1.1 dl:1.5 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max:1000 uy:0.1 v:0 x:250
 
 $ \input .on \change -> calculate!
 $ \#nb .on \change -> set-rho_w-access!
@@ -19,8 +19,12 @@ function calculate
   $ 'input[type="text"]' .each -> ins[$ @ .attr \id] = parseFloat($ @ .val!)
   outs = window.calc ins
   for k, v of outs
+    $el = $ "##k, .#k"
+    if v.val?
+      $el.removeClass!addClass v.class
+      v = v.val
     v = (Math.round v * 10^4) / 10^4 # round to 4 decimal places
-    $ "##k, .#k" .text(v).val(v)
+    $el.text(v).val(v)
     ins[k] = v if ins[k] # update (some) ins with rounded outs
   set-querystring-by-ins ins
 

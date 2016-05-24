@@ -76,12 +76,22 @@ body
         | However, this figure is somewhat subjective and may increase with
         | difficulties such as parallax, lack of magnification, the clarity/focus of
         | the water/line, whether the ruler is part obscured, etc.
+    +field-text('v', 'control line vertical drift velocity `v` = ')
+      | mm/min.
+      +help
+        | A slow vertical drift of the control line indicates a prevailing
+        | current and/or mis-calibration of the water density.
+        | Enter a -ve number for upward drift or +ve for downward.
   fieldset
     legend Calculated conditions at line's midpoint
     .out
       label line sag = 
       span.bold#sag
-      |  mm
+      |  mm (
+      span#sag_dl
+      |  mm due to stretch, 
+      span#sag_v
+      |  mm due to prevailing current or mis-calibration)
     .out
       label water height difference due to earth's curvature `Delta h` = &plusmn; 
       span.bold#dh
@@ -124,11 +134,9 @@ body
   fieldset
     legend Calculated line properties
     .out
-      label `T_0` density = 
+      label density at `T_0` = 
       span#rho_l
-      |  kg/`m^3`.
-    .out
-      label `T_max` density = 
+      |  kg/`m^3`, at `T_max` = 
       span#rho_lT
       |  kg/`m^3`.
     .out
@@ -143,6 +151,21 @@ body
       |  GPa [
       a(href="http://physicsnet.co.uk/a-level-physics-as-a2/materials/young-modulus/") equation
       | ]
+    .out
+      label Reynolds number `Re` = 
+      span#re
+      +help
+        | Calculated as `(v d_T) / nu` where `v` is the drift velocity,
+        | `d_T` is the line diameter at `T_max`
+        | and `nu` is the kinematic viscosity of water.
+        | A value < 1 indicates laminar flow.
+    .out
+      label drag coefficient `c_d` = 
+      span#c_d
+      +help
+        | Calculated using the Oseen approximation by Lamb:
+        | `c_d = (8 pi) / (Re (2.002 - ln Re))`.
+        span.bold Note this is valid only when `Re < 1`.
 
   script(src='calc.js')
   script(src='app.js')
