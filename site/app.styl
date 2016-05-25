@@ -9,13 +9,14 @@ fieldset
 input
   margin-right  0.5em
   width         5em
+  &[type='checkbox']
+    width         1em
+  &[type='text']
+    font-weight   bold
+    text-align    right
 
-input[type='checkbox']
-  width         1em
-
-input[type='text']
+#dh, #sag, #sigma_u-perc
   font-weight   bold
-  text-align    right
 
 #rho_w
   width         15em
@@ -23,26 +24,27 @@ input[type='text']
 .alert
   color         red
 
-.bold
-  font-weight   bold
-
 .field-text
   margin-bottom 0.5em
+  .units:after
+    content     '. '
 
 .help
+  .btn:before
+    content     ' ['
+  .btn:after
+    content     ']'
+  .link
+    color       blue
+    cursor      pointer
+  .text
+    background  yellow
   &.closed
     .open
       display   none
   &.open
     .closed
       display   none
-
-.help-btn
-  color         blue
-  cursor        pointer
-
-.help-text
-  background    yellow
 
 .hide
   display       none

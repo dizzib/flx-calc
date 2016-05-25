@@ -7,7 +7,7 @@ const DEFAULT-INS = d:1.1 dl:1.5 l_o:1 l_s:1 m_s:0.9 nb:true nu:0.46 T_max:1000 
 
 $ \input .on \change -> calculate!
 $ \#nb .on \change -> set-rho_w-access!
-$ \.help-btn .on \click -> $ @ .parents \.help .toggleClass 'open closed'
+$ '.help .link' .on \click -> $ @ .parents \.help .toggleClass 'open closed'
 
 populate-ins get-ins-by-querystring!
 set-rho_w-access!

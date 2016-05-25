@@ -1,27 +1,37 @@
-mixin field-check(id, label)
+mixin field-check(label)
   .field-check
-    label(for=id) #{label}
-    input(type='checkbox', id=id)
+    label(for!=attributes.id) #{label}
+    input(type='checkbox', id!=attributes.id)
     block
 
-mixin field-text(id, label)
+mixin field-text(label, units)
   .field-text
-    label(for=id) #{label}
-    input(type='text', id=id)
+    label(for!=attributes.id) #{label} = 
+    input(type='text', id!=attributes.id)
+    span.units #{units}
     block
 
 mixin help
   span.help.closed
     span.closed
-      |  [
-      span.help-btn explain
-      |] 
+      span.btn
+        span.link explain
     span.open
-      |  [
-      span.help-btn hide
-      |] 
-      .help-text
+      span.btn
+        span.link hide
+      .text
         block
+
+mixin link(label, url)
+  span.help
+    span.btn
+      a(href=url) #{label}
+    block
+
+mixin out(label, units, sign)
+  label(for!=attributes.id) #{label} = !{sign}
+  span(id!=attributes.id)
+  span.units  #{units}
 
 html
   head
@@ -39,36 +49,30 @@ body
     The source code is freely [available on GitHub.com](https://github.com/dizzib/flx-calc).
   fieldset
     legend Line properties at zero tension `T_0`
-    +field-text('l_s', 'sample length `l_s` = ')
-      | m. The length of line used to calculate the line density 
-    +field-text('m_s', 'sample mass `m_s` = ')
-      | g.
-    +field-text('d', 'diameter `d` = ')
-      | mm.
-    +field-text('nu', 'Poisson ratio `nu` = ')
-      | . This determines how much the diameter changes when tension is applied.
+    +field-text('sample length `l_s`', 'm')#l_s
+      | The length of line used to calculate the line density.
+    +field-text('sample mass `m_s`', 'g')#m_s
+    +field-text('diameter `d`', 'mm')#d
+    +field-text('Poisson ratio `nu`')#nu
+      | This determines how much the diameter changes when tension is applied.
   fieldset
     legend Apparatus setup
-    +field-text('x', 'pole span `x` = ')
-      | m. The distance between the two poles (the depth meters at each end).
-    +field-text('l_o', 'outer line length `l_o` = ')
-      | m.
+    +field-text('pole span `x`', 'm')#x
+      | The distance between the two poles (the depth meters at each end).
+    +field-text('outer line length `l_o`', 'm')#l_o
       +help
         | The line length from the anchor to pole A plus the unstretched line length
         | from pole B to an indicator on the line.
-    +field-check('nb', 'Calibrate the water density to make the line neutrally buoyant?')
-    +field-text('rho_w', 'water density `rho_w` = ')
-      | kg/`m^3`. This is a function of temperature [
-      a(href="http://www.csgnetwork.com/waterinformation.html") table
-      | ].
+    +field-check('Calibrate the water density to make the line neutrally buoyant?')#nb
+    +field-text('water density `rho_w`', 'kg/`m^3`')#rho_w
+      | This is a function of temperature
+      +link('table', "http://www.csgnetwork.com/waterinformation.html"): |  .
   fieldset
     legend Measurements at maximum tension `T_max`
-    +field-text('T_max', 'line tension `T_max` = ')
-      | N
-    +field-text('dl', 'line stretch `Delta l` = ')
-      | m. How far the indicator moves when `T_max` is applied.
-    +field-text('uy', 'water/line level reading uncertainty `+-deltay` = ')
-      | mm.
+    +field-text('line tension `T_max`', 'N')#T_max
+    +field-text('line stretch `Delta l ', 'm')#dl
+      | How far the indicator moves when `T_max` is applied.
+    +field-text('water/line level reading uncertainty `+-deltay`', 'mm')#uy
       +help
         | A skillful experimenter using a ruler with 1mm gradations 
         a(href='https://youtu.be/uZ0ILIG_l7w') should be able to estimate
@@ -76,38 +80,25 @@ body
         | However, this figure is somewhat subjective and may increase with
         | difficulties such as parallax, lack of magnification, the clarity/focus of
         | the water/line, whether the ruler is part obscured, etc.
-    +field-text('v', 'control line vertical drift velocity `v` = ')
-      | mm/min.
+    +field-text('control line vertical drift velocity `v`', 'mm/min')#v
       +help
         | A slow vertical drift of the control line indicates a prevailing
         | current and/or mis-calibration of the water density.
         | Enter a -ve number for upward drift or +ve for downward.
   fieldset
     legend Calculated conditions at line's midpoint
-    .out
-      label line sag = 
-      span.bold#sag
-      |  mm (
-      span#sag_dl
-      |  mm due to stretch, 
-      span#sag_v
-      |  mm due to prevailing current or mis-calibration)
-    .out
-      label water height difference due to earth's curvature `Delta h` = &plusmn; 
-      span.bold#dh
-      |  mm
-    .out
-      label predicted line depth difference of concave `DeltaY_(conc)` = 
-      span#dY_concave
-      |  mm, flat `DeltaY_(flat)` = 
-      span#dY_flat
-      |  mm, convex `DeltaY_(conv)` = 
-      span#dY_convex
-      |  mm
-    .out
-      label standard deviation of outliers `sigma_o` = 
-      span#sigma_o
-      |  mm.
+    div
+      +out('line sag', 'mm')#sag
+      +out(' (due to stretch', 'mm')#sag_dl
+      +out(', due to prevailing current or mis-calibration', 'mm)')#sag_v
+    div
+      +out("water height difference due to earth's curvature `Deltah`", 'mm' ,'&plusmn;')#dh
+    div
+      +out('line depth difference of concave `DeltaY_(conc)`', 'mm')#dY_concave
+      +out(', flat `DeltaY_(flat)`', 'mm')#dY_flat
+      +out(', convex `DeltaY_(conv)`', 'mm.')#dY_convex
+    div
+      +out('standard deviation of outliers `sigma_o`', 'mm')#sigma_o
       +help
         | A threshold beyond which a set of measurements might contain 
         a(href='https://en.wikipedia.org/wiki/Outlier') outliers
@@ -117,11 +108,9 @@ body
         | measurement will be lying closer to `DeltaY_(conc)` than `DeltaY_(flat)`.
         | If `sigma > sigma_o` then some measurements might be outlying
         | closer to `DeltaY_(flat)`.
-    .out
-      label standard deviation of reading errors `sigma_u` = 
-      span#sigma_u
-      |  mm = 
-      span.bold#sigma_u-perc
+    div
+      +out('standard deviation of reading errors `sigma_u`', 'mm = ')#sigma_u
+      span#sigma_u-perc
       |  % of `sigma_o`.
       +help
         | The expected SD caused by water/line level reading
@@ -133,35 +122,24 @@ body
         | outliers.
   fieldset
     legend Calculated line properties
-    .out
-      label density at `T_0` = 
-      span#rho_l
-      |  kg/`m^3`, at `T_max` = 
-      span#rho_lT
-      |  kg/`m^3`.
-    .out
-      label diameter change `Delta d` = 
-      span#dd
-      |  mm [
-      a(href="https://en.wikipedia.org/wiki/Poisson's_ratio#Width_change") equation
-      | ]
-    .out
-      label Young's modulus `E` = 
-      span#E
-      |  GPa [
-      a(href="http://physicsnet.co.uk/a-level-physics-as-a2/materials/young-modulus/") equation
-      | ]
-    .out
-      label Reynolds number `Re` = 
-      span#re
+    div
+      +out('density at `T_0`', 'kg/`m^3`')#rho_l
+      +out(', at `T_max`', 'kg/`m^3`')#rho_lT
+    div
+      +out('diameter change `Delta d`', 'mm')#dd
+      +link('equation', "https://en.wikipedia.org/wiki/Poisson's_ratio#Width_change")
+    div
+      +out("Young's modulus `E`", 'GPa')#E
+      +link('equation', "http://physicsnet.co.uk/a-level-physics-as-a2/materials/young-modulus/")
+    div
+      +out('Reynolds number `Re`')#re
       +help
         | Calculated as `(v d_T) / nu` where `v` is the drift velocity,
         | `d_T` is the line diameter at `T_max`
         | and `nu` is the kinematic viscosity of water.
         | A value < 1 indicates laminar flow.
-    .out
-      label drag coefficient `c_d` = 
-      span#c_d
+    div
+      +out('drag coefficient `c_d`')#c_d
       +help
         | Calculated using the Oseen approximation by Lamb:
         | `c_d = (8 pi) / (Re (2.002 - ln Re))`.
