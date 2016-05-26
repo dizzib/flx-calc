@@ -1,5 +1,5 @@
 name       : \flx-calc
-version    : \0.3.0
+version    : \0.4.0
 homepage   : \https://github.com/dizzib/flx-calc
 bugs       : \https://github.com/dizzib/flx-calc/issues
 license:   : \MIT

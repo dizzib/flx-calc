@@ -45,8 +45,11 @@ body
     # Fishing Line Experiment Calculator
     To view this page properly please use a browser that supports
     [MathML](https://www.w3.org/Math/) such as Firefox.
+    The source code is [freely available on GitHub](https://github.com/dizzib/flx-calc)
+    so you can check [the calculation code](https://github.com/dizzib/flx-calc/blob/master/site/calc.ls)
+    (it's written in [LiveScript](http://livescript.net)
+    which compiles to [JavaScript](https://en.wikipedia.org/wiki/JavaScript)).
     Bug reports and suggestions can be added to the [issues log](https://github.com/dizzib/flx-calc/issues).
-    The source code is freely [available on GitHub.com](https://github.com/dizzib/flx-calc).
   fieldset
     legend Line properties at zero tension `T_0`
     +field-text('sample length `l_s`', 'm')#l_s
@@ -54,7 +57,7 @@ body
     +field-text('sample mass `m_s`', 'g')#m_s
     +field-text('diameter `d`', 'mm')#d
     +field-text('Poisson ratio `nu`')#nu
-      | This determines how much the diameter changes when tension is applied.
+      | This determines how much the diameter changes when the line stretches.
   fieldset
     legend Apparatus setup
     +field-text('pole span `x`', 'm')#x
@@ -143,7 +146,12 @@ body
       +help
         | Calculated using the Oseen approximation by Lamb:
         | `c_d = (8 pi) / (Re (2.002 - ln Re))`.
-        span.bold Note this is valid only when `Re < 1`.
+        span
+          b Note this is valid only when `Re < 1` 
+          | (see 
+          a(href='http://imechanica.org/files/Sato_MDAC_final_2232012.pdf') Figure 8
+          | ).
+  #version
 
   script(src='calc.js')
   script(src='app.js')
