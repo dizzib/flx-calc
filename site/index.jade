@@ -41,6 +41,7 @@ html
     script(src='lib-3p/zepto.min.js')
     script(src='lib-3p/query-string.js')
 body
+  #version
   :md
     # Fishing Line Experiment Calculator
     To view this page properly please use a browser that supports
@@ -136,6 +137,7 @@ body
       +link('equation', "http://physicsnet.co.uk/a-level-physics-as-a2/materials/young-modulus/")
     div
       +out('Reynolds number `Re`')#re
+      | (must be less than 1)
       +help
         | Calculated as `(v d_T) / nu` where `v` is the drift velocity,
         | `d_T` is the line diameter at `T_max`
@@ -147,11 +149,22 @@ body
         | Calculated using the Oseen approximation by Lamb:
         | `c_d = (8 pi) / (Re (2.002 - ln Re))`.
         span
-          b Note this is valid only when `Re < 1` 
+          b This is valid only when `Re < 1` 
           | (see 
           a(href='http://imechanica.org/files/Sato_MDAC_final_2232012.pdf') Figure 8
           | ).
-  #version
+
+  h2 Theory
+  p The purpose of this experiment is to determine the curvature of the earth solely
+    | by mechanical measurement.
+    | A neutrally buoyant fishing line should form a perfectly straight
+    | line when held under high tension in a long stretch of still water. If
+    | each end is at depth `Y` beneath the water surface `S`
+    | and we measure the depth `Y + DeltaY` at the line's mid-point, then:
+  ul
+    li `DeltaY` > 0 implies convexity of `S`
+    li `DeltaY` < 0 implies concavity of `S`
+    li `DeltaY` = 0 implies flatness of `S`
 
   script(src='calc.js')
   script(src='app.js')
