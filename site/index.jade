@@ -22,6 +22,12 @@ mixin help
       .text
         block
 
+mixin help-diam
+  +help
+    | Regular positions along the line should be measured with a 
+    a(href='http://www.transcat.com/293-100') very high accuracy micrometer
+    |  and the average taken.
+
 mixin link(label, url)
   span.help
     span.btn
@@ -51,14 +57,14 @@ body
     (it's written in [LiveScript](http://livescript.net)
     which compiles to [JavaScript](https://en.wikipedia.org/wiki/JavaScript)).
     Bug reports and suggestions can be added to the [issues log](https://github.com/dizzib/flx-calc/issues).
+  button#reset Reset
   fieldset
     legend Line properties at zero tension `T_0`
     +field-text('sample length `l_s`', 'm')#l_s
       | The length of line used to calculate the line density.
     +field-text('sample mass `m_s`', 'g')#m_s
-    +field-text('diameter `d`', 'mm')#d
-    +field-text('Poisson ratio `nu`')#nu
-      | This determines how much the diameter changes when the line stretches.
+    +field-text('average line diameter `d`', '`mu m`')#d
+      +help-diam
   fieldset
     legend Apparatus setup
     +field-text('pole span `x`', 'm')#x
@@ -76,12 +82,14 @@ body
     +field-text('line tension `T_max`', 'N')#T_max
     +field-text('line stretch `Delta l ', 'm')#dl
       | How far the indicator moves when `T_max` is applied.
+    +field-text('average line diameter `d_T`', '`mu m`')#d_T
+      +help-diam
     +field-text('water/line level reading uncertainty `+-deltay`', 'mm')#uy
       +help
-        | A skillful experimenter using a ruler with 1mm gradations 
-        a(href='https://youtu.be/uZ0ILIG_l7w') should be able to estimate
-        |  to within &plusmn; 0.1mm.
-        | However, this figure is somewhat subjective and may increase with
+        | An experimenter using a ruler with very fine 1mm gradations 
+        a(href='https://youtu.be/uZ0ILIG_l7w') may be able to estimate
+        |  to within &plusmn; 0.1mm at best.
+        | However, this figure is somewhat subjective and may vary with
         | difficulties such as parallax, lack of magnification, the clarity/focus of
         | the water/line, whether the ruler is part obscured, etc.
     +field-text('control line vertical drift velocity `v`', 'mm/min')#v
@@ -114,7 +122,7 @@ body
         | closer to `DeltaY_(flat)`.
     div
       +out('standard deviation of reading errors `sigma_u`', 'mm = ')#sigma_u
-      span#sigma_u-perc
+      span#sigma_upc
       |  % of `sigma_o`.
       +help
         | The expected SD caused by water/line level reading
@@ -130,7 +138,10 @@ body
       +out('density at `T_0`', 'kg/`m^3`')#rho_l
       +out(', at `T_max`', 'kg/`m^3`')#rho_lT
     div
-      +out('diameter change `Delta d`', 'mm')#dd
+      +out('diameter change `Delta d`', '`mu m`')#dd
+    div
+      +out('Poisson ratio `nu`')#nu
+      | (should be between 0.3 and 0.5)
       +link('equation', "https://en.wikipedia.org/wiki/Poisson's_ratio#Width_change")
     div
       +out("Young's modulus `E`", 'GPa')#E
