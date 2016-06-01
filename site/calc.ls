@@ -46,9 +46,8 @@ window.calc = ->
 
   # line midpoint sag at Tmax
   factor = it.x^2 / (8 * it.T_max) # parabolic approximation factor (m)
-  sag_dl = (unit-w - unit-b) * factor # due to line density change (m)
   sag_v = unit-d * factor # due to prevailing current and/or mis-calibration (m)
-  sag = sag_dl + sag_v # total (m)
+  sag = (unit-w + unit-d - unit-b) * factor # total (m)
   sag-mm = sag * MM-PER-METRE # total (mm)
 
   # earth curve
@@ -99,7 +98,6 @@ window.calc = ->
   rho_lT:{val:rho_lT, alert:alert.rho_lT}
   rho_w:it.rho_w
   sag:sag-mm
-  sag_dl:sag_dl * MM-PER-METRE
   sag_v:{val:sag_v * MM-PER-METRE, alert:alert.re}
   sigma_o:sigma_o
   sigma_u:sigma_u
