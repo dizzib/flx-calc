@@ -1,8 +1,7 @@
 mixin field-check(label)
-  .field-check
-    label(for!=attributes.id) #{label}
-    input(type='checkbox', id!=attributes.id)
-    block
+  label(for!=attributes.id) #{label}
+  input(type='checkbox', id!=attributes.id)
+  block
 
 mixin field-text(label, units)
   .field-text
@@ -25,19 +24,23 @@ mixin help
 mixin help-diam
   +help
     | Regular positions along the line should be measured with a 
-    a(href='http://www.mitutoyo.com/press_releases/high-accuracy-digimatic-digital-micrometer') very high resolution micrometer
+    +link('very high resolution micrometer', 'http://www.mitutoyo.com/press_releases/high-accuracy-digimatic-digital-micrometer')
     |  and the average taken.
 
-mixin link(label, url)
+mixin help-equation(url)
   span.help
     span.btn
-      a(href=url) #{label}
-    block
+      +link('equation', url)
+
+mixin link(label, url)
+  a(href=url target='_blank') #{label}
+  block
 
 mixin out(label, units, sign)
   label(for!=attributes.id) #{label} = !{sign}
   span(id!=attributes.id)
   span.units  #{units}
+  block
 
 html
   head
@@ -73,10 +76,12 @@ body
       +help
         | The line length from the anchor to pole A plus the unstretched line length
         | from pole B to an indicator on the line.
-    +field-check('Calibrate the water density to make the line neutrally buoyant?')#nb
     +field-text('water density `rho_w`', 'kg/`m^3`')#rho_w
-      | This is a function of temperature
-      +link('table', "http://www.csgnetwork.com/waterinformation.html"): |  .
+      +field-check('Calibrate to make the line neutrally buoyant?')#nb
+      +help
+        +link('This table', "http://www.csgnetwork.com/waterinformation.html")
+        |  shows how the water density varies by temperature.
+        | Enter 999 for pure water at 15.6&deg;C.
     +field-text('water/line level reading uncertainty `+-deltay`', 'mm')#uy
       +help
         | An experimenter using a ruler with very fine 1mm gradations 
@@ -116,30 +121,24 @@ body
     div
       +out('diameter change `Delta d`', '`mu m`')#dd
     div
-      +out('Poisson ratio `nu`')#nu
-      | (should be between 0.3 and 0.5)
-      +link('equation', "https://en.wikipedia.org/wiki/Poisson's_ratio#Width_change")
+      +out('Poisson ratio `nu`')#nu (should be between 0.3 and 0.5)
+      +help-equation("https://en.wikipedia.org/wiki/Poisson's_ratio#Width_change")
     div
       +out("Young's modulus `E`", 'GPa')#E
-      +link('equation', "http://physicsnet.co.uk/a-level-physics-as-a2/materials/young-modulus/")
+      +help-equation("http://physicsnet.co.uk/a-level-physics-as-a2/materials/young-modulus/")
     div
-      +out('Reynolds number `Re`')#re
-      | (must be less than 1)
+      +out('Reynolds number `Re`')#re (must be less than 1)
       +help
         | Calculated as `(v d_T) / nu` where `v` is the drift velocity,
         | `d_T` is the line diameter at `T_max`
-        | and `nu` is the kinematic viscosity of water.
+        | and `nu` is the kinematic viscosity of water at 17&deg;C.
         | A value < 1 indicates laminar flow.
     div
       +out('drag coefficient `c_d`')#c_d
       +help
-        | Calculated using the Oseen approximation by Lamb:
-        | `c_d = (8 pi) / (Re (2.002 - ln Re))`.
-        span
-          b This is valid only when `Re < 1` 
-          | (see 
-          a(href='http://imechanica.org/files/Sato_MDAC_final_2232012.pdf') Figure 8
-          | ).
+        | Calculated using the Oseen approximation by Lamb, and
+        | <b>valid only for `Re < 1`</b>. See 
+        +link('Figure 8','http://imechanica.org/files/Sato_MDAC_final_2232012.pdf') .
   fieldset
     legend Uncertainty analysis
     div

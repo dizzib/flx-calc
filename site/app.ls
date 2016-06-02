@@ -3,7 +3,7 @@
 # 'illegal invocation' errors, since console.log expects 'this' to be console.
 window.log = -> console.log ...&
 
-const DEFAULT-INS = d:1200 d_T:1186 dl:6 l_o:1 l_s:300 m_s:330 nb:true T_max:1000 uy:0.1 v:0 x:220
+const DEFAULT-INS = d:1200 d_T:1186 dl:6 l_o:1 l_s:300 m_s:330 nb:true T_max:1000 uy:0.1 v:0 x:226
 
 $.ajax url:\package.json success:-> $ \#version .text "v#{it.version}"
 $ \#reset .on \click -> reset!
